@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/pixelWar.css">
+    <script src="js/pixelWar.js" type="module"></script>
+    <title>PixelWar</title>
+</head>
+<body>
+    <header>
+        <h1>PIXEL IUT WAR</h1>
+    </header>
+    <main>
+        <div class="Tableau">
+            <table id="table">
+            </table>
+            <button id="buttonSubmit">Submit info</button>
+        </div>
+        <div class="Droite">
+            <div class="Identification">
+                <h2>Identification Obligatoire</h2>
+                <div class="center">
+                    <input type="text" id="Idd" name="Identification" placeholder="Votre UID..." required>
+                </div>
+            </div>
+            <div class="couleurChoix">
+                <h2>Choisir une couleur</h2>
+                <div class ="center">
+                    <input type="color" id="ChoixCouleur" name="pallette couleur" value="#ffffff" required>
+                </div>
+            </div>
+            <div class="TpsModif">
+                <h2>Temps avant Modification</h2>
+                <div class="center">
+                    <p id="TpsModif">feur</p>
+                </div>
+            </div>
+            <div class="Equipe">
+                <h2>Choisir Votre Equipe : </h2>
+                <div class="center">
+                    <button id="buttonTeam1">Equipe 1</button>
+                    <button id="buttonTeam2">Equipe 2</button>
+                    <button id="buttonTeam3">Equipe 3</button>
+                    <button id="buttonTeam4">Equipe 4</button>
+                </div>
+            </div>
+            <div class="info">
+                <h2>Derrniere info Retourner du serv</h2>
+                <div class="center">
+                    <p id="console">feur</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
