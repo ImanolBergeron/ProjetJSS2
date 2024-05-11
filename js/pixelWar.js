@@ -2,8 +2,12 @@ const careeDePixellien = "https://pixel-api.codenestedu.fr/tableau";
 const uidLien = "https://pixel-api.codenestedu.fr/choisir-equipe";
 const envoyerInfo = document.getElementById("buttonSubmit");
 let currentTeam = null;
-
 const tab = document.getElementById("table");
+
+
+/**
+ * Fait apparaitre le carre de pixel 
+ */
 fetch(careeDePixellien)
     .then(reponse => reponse.json())
     .then(data => {
@@ -21,6 +25,10 @@ fetch(careeDePixellien)
         new Error("mauvais lien")
     );
 
+
+/**
+ * envoie le formulaire au serveur avec l'uid de la personne et son équipe choisis
+ */
 envoyerInfo.addEventListener("click", () => {
     if (currentTeam === null) {
         return alert("choisissez une équipe")
@@ -38,10 +46,10 @@ envoyerInfo.addEventListener("click", () => {
     };
     fetch(uidLien, options)
         .then(async response => {
+            const ConsoleMsg = await response.json();
+            document.getElementById("console").textContent = ConsoleMsg.msg;
             if (!response.ok) {
-                const errorMsg = await response.json();
-                document.getElementById("console").textContent = errorMsg.msg;
-                throw new Error("Erreur serveur : " + errorMsg.msg);
+                throw new Error("Erreur serveur : " + ConsoleMsg.msg);
             }
             return response.json();
         })
@@ -49,8 +57,84 @@ envoyerInfo.addEventListener("click", () => {
         .catch(error => console.error(error.message));
 });
 
-document.querySelector("#buttonTeam1").addEventListener("click", (event) => {
-    currentTeam = 0;
+
+/**
+ * change le pixel séléctionner dans le tableau en fonction de la couleur choisis
+ */
+tab.addEventListener('mousedown', (event) =>{
+    const color = document.getElementById("ChoixCouleur").value;
+    const selectedCell = event.target;
+    const id = document.getElementById("Idd").value;
+
+    const data = {
+        color: color,
+        uid: id,
+        col: selectedCell.cellIndex,
+        row: selectedCell.parentNode.rowIndex
+    };
+    fetch('https://pixel-api.codenestdu.fr/modifier-case',{
+        method : 'PUT',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(data)
+    })
+    .then(async response => {
+        const ConsoleMsg = await response.json();
+        document.getElementById("console").textContent = ConsoleMsg.msg;
+        if (!response.ok) {
+            throw new Error("Erreur serveur : " + ConsoleMsg.msg);
+        }
+        return response.json();
+    })
+    .then(data => {
+        
+        console.log('Réponse de l\'API:', data);
+    })
+    .catch((error) =>{
+        console.error('Erreur lors de l\'envoie de la requete:',error);
+    })
+    
+
+});
+
+/**
+ * Methode verifiant et affichant le temps d'attente
+ */
+
+const TempsAttente = () => {
+    const nodeUid = document.getElementById("Idd");
+    const temps = document.getElementById('TpsModif')
+
+    fetch(`https://pixel-api.codenestedu.fr/temps-attente?uid=${nodeUid.value}`)
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error);
+            });
+        } return response.json;
+    })
+
+    .then(data =>{
+        temps.textContent = `Temps d'attente : ${data.tempsAttente}`;
+    })
+
+    .catch(error => {
+        console.error(`Utilisateur inconnu`)
+    })
+}
+
+/**
+ * Méthode pour afficher le tableau des participant recent
+ */
+
+
+
+/**
+ * fait toute les modification nécessaire pour le passage a l'équipe 1
+ */
+document.getElementById("buttonTeam1").addEventListener("click", (event) => {
+    currentTeam = 1;
     console.log(event);
     document.getElementById("buttonTeam1").style.backgroundColor = 'red';
     document.getElementById("buttonTeam2").style.backgroundColor = 'white';
@@ -58,52 +142,35 @@ document.querySelector("#buttonTeam1").addEventListener("click", (event) => {
     document.getElementById("buttonTeam4").style.backgroundColor = 'white';
 });
 
+/**
+ * fait toute les modification nécessaire pour le passage a l'équipe 2
+ */
 document.getElementById("buttonTeam2").addEventListener("click", () => {
-    currentTeam = 1;
+    currentTeam = 2;
     document.getElementById("buttonTeam1").style.backgroundColor = 'white';
     document.getElementById("buttonTeam2").style.backgroundColor = 'red';
     document.getElementById("buttonTeam3").style.backgroundColor = 'white';
     document.getElementById("buttonTeam4").style.backgroundColor = 'white';
 });
 
+/**
+ * fait toute les modification nécessaire pour le passage a l'équipe 3
+ */
 document.getElementById("buttonTeam3").addEventListener("click", () => {
-    currentTeam = 2;
+    currentTeam = 3;
     document.getElementById("buttonTeam1").style.backgroundColor = 'white';
     document.getElementById("buttonTeam2").style.backgroundColor = 'white';
     document.getElementById("buttonTeam3").style.backgroundColor = 'red';
     document.getElementById("buttonTeam4").style.backgroundColor = 'white';
 });
 
+/**
+ * fait toute les modification nécessaire pour le passage a l'équipe 4
+ */
 document.getElementById("buttonTeam4").addEventListener("click", () => {
-    currentTeam = 3;
+    currentTeam = 4;
     document.getElementById("buttonTeam1").style.backgroundColor = 'white';
     document.getElementById("buttonTeam2").style.backgroundColor = 'white';
     document.getElementById("buttonTeam3").style.backgroundColor = 'white';
     document.getElementById("buttonTeam4").style.backgroundColor = 'red';
 });
-
-
-
-
-
-/*
-const uidVerification = () =>{
-    fetch(uidLien)
-    .then(reponse => reponse.json())
-    .then(data =>{
-        const existe = false;
-        data.forEach(uid =>{
-            if(uid == document.getElementById("Idd").value){
-                existe = true;
-            }
-        })
-        if(!existe){
-            alert("uid inexistant");
-            return new Error("ce n'est pas un uid existant")
-        }
-    })
-    .catch(
-        new Error("mauvais lien")
-    );
-};
-*/
