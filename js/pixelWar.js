@@ -96,6 +96,7 @@ tab.addEventListener('click', (event) =>{
         
         console.log('Réponse de l\'API:', data);
         fetchcarredepixel();
+        TempsAttente();
     })
     .catch((error) =>{
         console.error('Erreur lors de l\'envoie de la requete:',error);
@@ -121,7 +122,7 @@ const TempsAttente = () => {
     })
 
     .then(data =>{
-        temps.textContent = `Temps d'attente : ${data.tempsAttente}`;
+        temps.textContent = 'Temps d\'attente :',data;
     })
 
     .catch(error => {
@@ -136,7 +137,28 @@ TempsAttente();
 document.getElementById("printTab").addEventListener('click', () =>{
     document.getElementById("tabledejoueur").style.display = "block";
     fetch('https://pixel-api.codenestedu.fr/liste-joueurs')
-});
+
+    .then(response => response.json())
+
+    .then(data =>{
+        data.forEach(personne => {
+            const tr = document.createElement("tr");
+            const tdnom = document.createElement("td");
+            const tdlasteModification = document.createElement("td");
+            const tdbanned = document.createElement("td");
+            const tdnbPixel = document.createElement("td");
+            tdnom.textContent = personne.nom;
+            tdbanned.textContent = personne.banned;
+            tdlasteModification.textContent = personne.lastModificationPixel;
+            tdnbPixel.textContent = personne.nbPixelsModifies;
+            tr.appendChild(tdnom);
+            tr.appendChild(tdlasteModification);
+            tr.appendChild(tdbanned);
+            tr.appendChild(tdnbPixel);
+            tab.appendChild(tr);
+        })
+    });
+})
 
 
 
@@ -184,3 +206,4 @@ document.getElementById("buttonTeam4").addEventListener("click", () => {
     document.getElementById("buttonTeam3").style.backgroundColor = 'white';
     document.getElementById("buttonTeam4").style.backgroundColor = 'red';
 });
+
