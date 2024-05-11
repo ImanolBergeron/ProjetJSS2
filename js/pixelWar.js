@@ -8,7 +8,8 @@ const tab = document.getElementById("table");
 /**
  * Fait apparaitre le carre de pixel 
  */
-fetch(careeDePixellien)
+const fetchcarredepixel = () =>{
+    fetch(careeDePixellien)
     .then(reponse => reponse.json())
     .then(data => {
         data.forEach(row => {
@@ -24,7 +25,8 @@ fetch(careeDePixellien)
     .catch(
         new Error("mauvais lien")
     );
-
+}
+fetchcarredepixel();
 
 /**
  * envoie le formulaire au serveur avec l'uid de la personne et son équipe choisis
@@ -61,7 +63,7 @@ envoyerInfo.addEventListener("click", () => {
 /**
  * change le pixel séléctionner dans le tableau en fonction de la couleur choisis
  */
-tab.addEventListener('mousedown', (event) =>{
+tab.addEventListener('click', (event) =>{
     const color = document.getElementById("ChoixCouleur").value;
     const selectedCell = event.target;
     const id = document.getElementById("Idd").value;
@@ -72,13 +74,16 @@ tab.addEventListener('mousedown', (event) =>{
         col: selectedCell.cellIndex,
         row: selectedCell.parentNode.rowIndex
     };
-    fetch('https://pixel-api.codenestdu.fr/modifier-case',{
+
+    const option = {
         method : 'PUT',
         headers : {
             'Content-Type' : 'application/json'
         },
         body : JSON.stringify(data)
-    })
+    }
+
+    fetch('https://pixel-api.codenestedu.fr/modifier-case',option)
     .then(async response => {
         const ConsoleMsg = await response.json();
         document.getElementById("console").textContent = ConsoleMsg.msg;
@@ -90,13 +95,13 @@ tab.addEventListener('mousedown', (event) =>{
     .then(data => {
         
         console.log('Réponse de l\'API:', data);
+        fetchcarredepixel();
     })
     .catch((error) =>{
         console.error('Erreur lors de l\'envoie de la requete:',error);
     })
-    
-
 });
+
 
 /**
  * Methode verifiant et affichant le temps d'attente
@@ -120,13 +125,18 @@ const TempsAttente = () => {
     })
 
     .catch(error => {
-        console.error(`Utilisateur inconnu`)
+        console.error('Erreur lors de la requete:',error)
     })
 }
 
+TempsAttente();
 /**
  * Méthode pour afficher le tableau des participant recent
  */
+document.getElementById("printTab").addEventListener('click', () =>{
+    document.getElementById("tabledejoueur").style.display = "block";
+    fetch('https://pixel-api.codenestedu.fr/liste-joueurs')
+});
 
 
 

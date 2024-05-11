@@ -7,7 +7,7 @@ header h1{
     text-align: center;
 }
 
-table{
+#table{
     border-collapse: collapse;
     min-width: 500px;
     min-height: 500px;
@@ -68,4 +68,24 @@ p{
 .center button{
     width: 60%;
     height: 60%;
+}
+
+#tabledejoueur th{
+    width: 30%;
+    border: solid 2px black;
+}
+
+.tableau_de_joueur{
+    display: flex;
+    justify-content: center;
+}
+
+#tabledejoueur{
+    width:100%;
+    border: solid 2px black;
+    display: none;
+}
+
+#printTab{
+    height: 50px;
 }
