@@ -89,3 +89,9 @@ p{
 #printTab{
     height: 50px;
 }
+
+body{
+    background-image: url('fondecran.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
