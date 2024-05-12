@@ -25,7 +25,7 @@
     * la modification du pixel possible au click
 * verification de l'utilisateur
     * verification de la séléction d'une équipe
-    * verification de l'uid
+    * verification de l'uid qui est caché lors de son écriture
     * validation de l'existance de l'utilisateur
 * info complémentaire
     * tableau de joueur fait
