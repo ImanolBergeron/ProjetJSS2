@@ -3,6 +3,7 @@ const uidLien = "https://pixel-api.codenestedu.fr/choisir-equipe";
 const envoyerInfo = document.getElementById("buttonSubmit");
 let currentTeam = null;
 const tab = document.getElementById("table");
+let VeuxAfficherTabJoueur = false;
 
 
 /**
@@ -157,6 +158,7 @@ const ChangerCouleurPixel = (event) => {
         ClearTab();
         fetchcarredepixel();
         TempsAttente();
+        afficherTabJoueur();
     })
     .catch((error) =>{
         console.error('Erreur lors de l\'envoie de la requete:',error);
@@ -175,14 +177,12 @@ const TempsAttente = () => {
     fetch(`https://pixel-api.codenestedu.fr/temps-attente?uid=${nodeUid.value}`)
     .then(response => {
         if (!response.ok) {
-            return response.json().then(data => {
                 throw new Error(data.error);
-            });
-        } return response.json;
+        } return response.json();
     })
 
     .then(data =>{
-        temps.textContent = 'Temps d\'attente :',data;
+        temps.textContent = 'Temps d\'attente :',data.tempsAttente;
     })
 
     .catch(error => {
@@ -194,13 +194,20 @@ const TempsAttente = () => {
  * Méthode pour afficher le tableau des participant recent
  */
 document.getElementById("printTab").addEventListener('click', () =>{
-    document.getElementById("tabledejoueur").style.display = "block";
-    fetch('https://pixel-api.codenestedu.fr/liste-joueurs')
+    VeuxAfficherTabJoueur = true;
+    afficherTabJoueur();
+})
+
+const afficherTabJoueur = () =>{
+    const table = document.getElementById("tabledejoueur");
+    if(VeuxAfficherTabJoueur){
+        document.getElementById("tabledejoueur").style.display = "block";
+    }
+    fetch(`https://pixel-api.codenestedu.fr/liste-joueurs?uid=${document.getElementById("Idd").value}`)
 
     .then(response => response.json())
 
     .then(data =>{
-        console.log(data);
         data.forEach(personne => {
             const tr = document.createElement("tr");
             const tdnom = document.createElement("td");
@@ -211,14 +218,18 @@ document.getElementById("printTab").addEventListener('click', () =>{
             tdbanned.textContent = personne.banned;
             tdlasteModification.textContent = personne.lastModificationPixel;
             tdnbPixel.textContent = personne.nbPixelsModifies;
+            tdnom.style.border = "solid 2px rgb(150, 19, 148)";
+            tdbanned.style.border = "solid 2px rgb(150, 19, 148)";
+            tdlasteModification.style.border = "solid 2px rgb(150, 19, 148)";
+            tdnbPixel.style.border = "solid 2px rgb(150, 19, 148)";
             tr.appendChild(tdnom);
             tr.appendChild(tdlasteModification);
             tr.appendChild(tdbanned);
             tr.appendChild(tdnbPixel);
-            tab.appendChild(tr);
+            table.appendChild(tr);
         })
     });
-})
+}
 
 
 fetchcarredepixel();
