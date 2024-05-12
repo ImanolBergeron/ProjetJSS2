@@ -72,7 +72,7 @@ p{
 
 #tabledejoueur th{
     width: 30%;
-    border: solid 2px black;
+    border: solid 2px rgb(150, 19, 148);
 }
 
 .tableau_de_joueur{
@@ -80,9 +80,14 @@ p{
     justify-content: center;
 }
 
+#TpsModif{
+    color: white;
+}
+
 #tabledejoueur{
+    color : white;
     width:100%;
-    border: solid 2px black;
+    border: solid 2px rgb(150, 19, 148);
     display: none;
 }
 
