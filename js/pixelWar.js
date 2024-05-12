@@ -165,7 +165,7 @@ const ChangerCouleurPixel = (event) => {
 
 const TempsAttente = () => {
     const nodeUid = document.getElementById("Idd");
-    const temps = document.getElementById('TpsModif')
+    const temps = document.getElementById("TpsModif");
 
     fetch(`https://pixel-api.codenestedu.fr/temps-attente?uid=${nodeUid.value}`)
     .then(response => {
@@ -175,14 +175,22 @@ const TempsAttente = () => {
     })
 
     .then(data =>{
-        console.log(data);
-        temps.textContent = 'Temps d\'attente :',data.tempsAttente;
+        if(Math.floor(data.tempsAttente/1000) === 0){
+            temps.textContent = "Vous pouvez poser un pixel";
+        }
+        else{
+        temps.textContent = "Temps d'attente :  " + Math.floor(data.tempsAttente/1000) + "  sec";
+        }
     })
 
     .catch(error => {
         console.error('Erreur lors de la requete:',error)
     })
 }
+
+setInterval(()=>{
+    TempsAttente();
+}, 1000);
 
 /**
  * Méthode pour afficher le tableau des participant recent

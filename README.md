@@ -22,15 +22,15 @@
 ## CE QUI A ETE FAIT(pas forcement bien)
 * le tableau de pixel 
     * affichage de celui-ci
-    * la modification du pixel possible au click ( besoin de recharger la page quand meme).
+    * la modification du pixel possible au click
 * verification de l'utilisateur
     * verification de la séléction d'une équipe
     * verification de l'uid
     * validation de l'existance de l'utilisateur
 * info complémentaire
     * tableau de joueur fait
-    * seconde entre chaque pixel fait mais ne marche pas
-    * rafraichissement du tableau ne marche pas
+    * seconde entre chaque pixel fait et fonctionnel
+    * rafraichissement du tableau fonctionne
 * bonus
     * changement de la police d'ecriture
     * changement de limage de fond 
