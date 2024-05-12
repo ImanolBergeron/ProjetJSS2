@@ -28,9 +28,9 @@
     * verification de l'uid
     * validation de l'existance de l'utilisateur
 * info complémentaire
-    * tableau de joueur fait mais ne marche pas
+    * tableau de joueur fait
     * seconde entre chaque pixel fait mais ne marche pas
-    * rafraichissement du tableau de marche pas
+    * rafraichissement du tableau ne marche pas
 * bonus
     * changement de la police d'ecriture
     * changement de limage de fond 

@@ -57,6 +57,7 @@ document.getElementById("buttonTeam4").addEventListener("click", () => {
  * Fait apparaitre le carre de pixel 
  */
 const fetchcarredepixel = () =>{
+    tab.innerHTML = "";
     fetch(careeDePixellien)
     .then(reponse => reponse.json())
     .then(data => {
@@ -78,6 +79,10 @@ const fetchcarredepixel = () =>{
     );
 }
 
+
+setInterval(()=>{
+    fetchcarredepixel();
+},5000);
 
 /**
  * envoie le formulaire au serveur avec l'uid de la personne et son équipe choisis
@@ -110,15 +115,6 @@ envoyerInfo.addEventListener("click", () => {
         .catch(error => console.error(error.message));
 });
 
-/**
- * Methode pour supprimer tout les élément du carre de pixel
- */
-const ClearTab = () =>{
-    tab.forEach(row =>{
-        tab.remove(row);
-    })
-    
-}
 
 /**
  * change le pixel séléctionner dans le tableau en fonction de la couleur choisis
@@ -155,10 +151,7 @@ const ChangerCouleurPixel = (event) => {
     .then(data => {
         
         console.log('Réponse de l\'API:', data);
-        ClearTab();
-        fetchcarredepixel();
         TempsAttente();
-        afficherTabJoueur();
     })
     .catch((error) =>{
         console.error('Erreur lors de l\'envoie de la requete:',error);
@@ -182,6 +175,7 @@ const TempsAttente = () => {
     })
 
     .then(data =>{
+        console.log(data);
         temps.textContent = 'Temps d\'attente :',data.tempsAttente;
     })
 
@@ -200,6 +194,11 @@ document.getElementById("printTab").addEventListener('click', () =>{
 
 const afficherTabJoueur = () =>{
     const table = document.getElementById("tabledejoueur");
+    let trTab = document.querySelectorAll("#tabledejoueur tr");
+
+    for(let i = trTab.length - 1; i > 0 ; i--){
+        trTab[i].remove();
+    }
     if(VeuxAfficherTabJoueur){
         document.getElementById("tabledejoueur").style.display = "block";
     }
@@ -231,6 +230,4 @@ const afficherTabJoueur = () =>{
     });
 }
 
-
 fetchcarredepixel();
-TempsAttente();
